@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>JS-Calendar</title>
+    <style>
+        td {
+            border: 1px solid black;
+            padding: 1em;
+            text-align: center;
+        }
+        .today {
+            background-color: red;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>JS-Calendar</h1>
+<h2>Partie 0 : Générer un &lt;table&gt; pour le mois de janvier</h2>
+<div id="partie0"></div>
+
+<h2>Partie 1 : Générer un &lt;table&gt; sur plusieurs lignes</h2>
+<div id="partie1"></div>
+
+<h2>Partie 2 : Générer le mois de janvier</h2>
+<div id="partie2"></div>
+
+<h2>Partie 3 : Isoler le code dans une fonction</h2>
+<div id="partie3"></div>
+
+<h2>Partie 4 : Générer les autres mois</h2>
+<div id="partie4"></div>
+
+<h2>Partie 5 : Afficher le jour courant en rouge</h2>
+<div id="partie5"></div>
+
+<script>
+    // Partie 0
+    console.log("Début Partie 0");
+    let partie0 = document.getElementById("partie0");
+    let html0 = "<table><tr>";
+    for (let i = 1; i <= 31; i++) {
+        html0 += `<td>${i}</td>`;
+    }
+    html0 += "</tr></table>";
+    partie0.innerHTML = html0;
+    console.log("Fin Partie 0");
+
+    // Partie 1
+    console.log("Début Partie 1");
+    let partie1 = document.getElementById("partie1");
+    let html1 = "<table>";
+    let current_day1 = 1;
+    for (let line = 1; line <= 5; line++) {
+        html1 += "<tr>";
+        for (let col = 1; col <= 7; col++) {
+            html1 += `<td>${current_day1}</td>`;
+            current_day1++;
+        }
+        html1 += "</tr>";
+    }
+    html1 += "</table>";
+    partie1.innerHTML = html1;
+    console.log("Fin Partie 1");
+
+    // Partie 2
+    console.log("Début Partie 2");
+    let partie2 = document.getElementById("partie2");
+    let current_day2 = 1;
+    let html2 = "<table>";
+    while (current_day2 <= 31) {
+        html2 += "<tr>";
+        for (let col = 1; col <= 7; col++) {
+            if (current_day2 <= 31) {
+                html2 += `<td>${current_day2}</td>`;
+                current_day2++;
+            }
+        }
+        html2 += "</tr>";
+    }
+    html2 += "</table>";
+    partie2.innerHTML = html2;
+    console.log("Fin Partie 2");
+
+    // Partie 3
+    console.log("Début Partie 3");
+    function print_table_month(max_days) {
+        let html = "<table>";
+        let day = 1;
+        while (day <= max_days) {
+            html += "<tr>";
+            for (let col = 1; col <= 7; col++) {
+                if (day <= max_days) {
+                    html += `<td>${day}</td>`;
+                    day++;
+                }
+            }
+            html += "</tr>";
+        }
+        html += "</table>";
+        return html;
+    }
+    document.getElementById("partie3").innerHTML = print_table_month(29);
+    console.log("Fin Partie 3");
+
+    // Partie 4
+    console.log("Début Partie 4");
+    const month_max_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const month_names = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+    let html4 = "";
+    for (let i = 0; i < month_max_days.length; i++) {
+        html4 += `<h3>${month_names[i]}</h3>`;
+        html4 += print_table_month(month_max_days[i]);
+    }
+    document.getElementById("partie4").innerHTML = html4;
+    console.log("Fin Partie 4");
+
+    // Partie 5
+    console.log("Début Partie 5");
+    let today = new Date();
+    let current_month = today.getMonth();
+    let current_day = today.getDate();
+
+    function print_table_with_today(month_name, max_days, month_index) {
+        let html = `<h3>${month_name}</h3><table>`;
+        let day = 1;
+        while (day <= max_days) {
+            html += "<tr>";
+            for (let col = 1; col <= 7; col++) {
+                if (day <= max_days) {
+                    if (month_index === current_month && day === current_day) {
+                        html += `<td class='today'>${day}</td>`;
+                    } else {
+                        html += `<td>${day}</td>`;
+                    }
+                    day++;
+                } else {
+                    html += "<td></td>";
+                }
+            }
+            html += "</tr>";
+        }
+        html += "</table>";
+        return html;
+    }
+
+    let html5 = "";
+    for (let i = 0; i < month_max_days.length; i++) {
+        html5 += print_table_with_today(month_names[i], month_max_days[i], i);
+    }
+    document.getElementById("partie5").innerHTML = html5;
+    console.log("Fin Partie 5");
+</script>
+
+</body>
+</html>
